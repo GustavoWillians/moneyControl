@@ -1,5 +1,6 @@
 from tkinter import * 
 from tkinter import Tk, ttk
+from tkinter import messagebox
 
 # importando Pillow
 from PIL import Image, ImageTk
@@ -16,6 +17,9 @@ from matplotlib.figure import Figure
 # tkcalendar
 from tkcalendar import Calendar, DateEntry
 from datetime import date
+
+#importando funções da view
+from view import bar_valores, inserir_categoria, ver_categoria, inserir_receita, inserir_gastos 
 
 ################# cores ###############
 co0 = "#2e2d2b"  # Preta
@@ -62,6 +66,66 @@ app_img = ImageTk.PhotoImage(app_img)
 
 app_logo = Label(frameCima, image=app_img, text="Orçamento pessoal", width=900, compound=LEFT, padx=5, relief=RAISED, anchor=NW, font=('Verdana 20 bold'), bg=co1, fg=co4,)
 app_logo.place(x=0, y=0)
+
+#definindo tree como global
+global tree
+
+# Função inserir categoria
+def inserir_categoria_b():
+    nome = e_categoria.get()
+
+    lista_inserir = [nome]
+
+    for i in lista_inserir:
+        if i =='':
+            messagebox.showerror('Erro', 'Preencha todos os campos')
+            return
+        
+    # Passando a lista para a função de inserir gastos presentes na view    
+    inserir_categoria(lista_inserir)  
+    
+    messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso')
+
+    #Deleta o valor que esta na view após ser inserido 
+    e_categoria.delete(0,'end')
+
+    # Pegando os valores da categoria
+    categorias_funcao = ver_categoria()
+    categoria = []
+
+    for i in categorias_funcao:
+        categoria.append(i[1])
+    
+    # atualizando a lista de categorias
+    combo_categoria_despesas['values'] = (categoria)
+
+#função inserir receitas
+def inserir_receitas_b():
+    nome = 'Receita'
+    data = e_cal_receitas.get()
+    quantia = e_valor_receitas.get()
+
+    lista_inserir = [nome, data, quantia]
+
+    for i in lista_inserir:
+        if i =='':
+            messagebox.showerror('Erro', 'Preencha todos os campos')
+            return
+    # Chamando a função de inserir receitas presente na view
+    inserir_receita(lista_inserir)
+
+    messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso')
+
+    #Deleta o valor que esta na view após ser inserido 
+    e_cal_receitas.delete(0,'end')
+    e_valor_receitas.delete(0,'end')
+
+    # atualizando dados
+    mostrar_renda()
+    percentagem()
+    grafico_bar()
+    resumo()
+    grafico_pie()
 
 
 #percentagem ---------------------
