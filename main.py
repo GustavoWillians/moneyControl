@@ -275,9 +275,8 @@ e_valor_despesas.place(x=110,y=100)
 img_add_despesas = Image.open('adicionar.png')
 img_add_despesas = img_add_despesas.resize((17,17))
 img_add_despesas = ImageTk.PhotoImage(img_add_despesas)
-
 botao_inserir_despesas = Button(frame_operacoes, image=img_add_despesas, text=" Adicionar".upper(), width=80, compound=LEFT, anchor=NW, font=('Ivy 7 bold'), bg=co1, fg=co0, overrelief=RIDGE)
-botao_inserir_despesas.place(x=110, y=131)
+botao_inserir_despesas.place(x=110, y=111)
 
 # Botão de excluir
 l_excluir = Label(frame_operacoes, text='Excluir ação', height=1, anchor=NW, font=("Ivy 10 bold"), bg=co1, fg=co4)
@@ -298,22 +297,22 @@ l_info.place(x=10 ,y=10)
 # calendario -----------
 l_cal_receitas = Label(frame_configuracao, text='Data', height=1, anchor=NW, font=("Ivy 10"), bg=co1, fg=co4)
 l_cal_receitas.place(x=10 ,y=40)
-l_cal_receitas = DateEntry(frame_configuracao, width=12, background='darkblue', foreground = 'white', borderwidth=2, year =2024 )
-l_cal_receitas.place(x=110, y=41)
+e_cal_receitas = DateEntry(frame_configuracao, width=12, background='darkblue', foreground = 'white', borderwidth=2, year =2024 )
+e_cal_receitas.place(x=110, y=41)
 
 
 # Valor --------------
 l_valor_receitas = Label(frame_configuracao, text='Quantia total', height=1, anchor=NW, font=("Ivy 10"), bg=co1, fg=co4)
 l_valor_receitas.place(x=10 ,y=70)
-l_valor_receitas = Entry(frame_configuracao, width=14, justify='left', relief='solid')
-l_valor_receitas.place(x=110,y=71)
+e_valor_receitas = Entry(frame_configuracao, width=14, justify='left', relief='solid')
+e_valor_receitas.place(x=110,y=71)
 
 # Botão de inserir
-img_add_categoria = Image.open('adicionar.png')
-img_add_categoria = img_add_categoria.resize((17,17))
-img_add_categoria = ImageTk.PhotoImage(img_add_categoria)
-botao_inserir_despesas = Button(frame_configuracao, image=img_add_categoria, text=" Adicionar".upper(), width=80, compound=LEFT, anchor=NW, font=('Ivy 7 bold'), bg=co1, fg=co0, overrelief=RIDGE)
-botao_inserir_despesas.place(x=110, y=190)
+img_add_receitas = Image.open('adicionar.png')
+img_add_receitas = img_add_receitas.resize((17,17))
+img_add_receitas = ImageTk.PhotoImage(img_add_receitas)
+botao_inserir_receitas = Button(frame_configuracao, command=inserir_receitas_b, image=img_add_receitas, text=" Adicionar".upper(), width=80, compound=LEFT, anchor=NW, font=('Ivy 7 bold'), bg=co1, fg=co0, overrelief=RIDGE)
+botao_inserir_receitas.place(x=110, y=111)
 
 
 # Operação de inserir nova categoria  -------------------------
@@ -326,11 +325,11 @@ e_categoria.place(x=110, y=160)
 
 
 # Botão de inserir
-img_add_receitas = Image.open('adicionar.png')
-img_add_receitas = img_add_receitas.resize((17,17))
-img_add_receitas = ImageTk.PhotoImage(img_add_receitas)
-botao_inserir_despesas = Button(frame_configuracao, command=inserir_categoria_b, image=img_add_receitas, text=" Adicionar".upper(), width=80, compound=LEFT, anchor=NW, font=('Ivy 7 bold'), bg=co1, fg=co0, overrelief=RIDGE)
-botao_inserir_despesas.place(x=110, y=111)
+img_add_categoria = Image.open('adicionar.png')
+img_add_categoria = img_add_categoria.resize((17,17))
+img_add_categoria = ImageTk.PhotoImage(img_add_categoria)
+botao_inserir_categoria = Button(frame_configuracao, command=inserir_categoria_b, image=img_add_categoria, text=" Adicionar".upper(), width=80, compound=LEFT, anchor=NW, font=('Ivy 7 bold'), bg=co1, fg=co0, overrelief=RIDGE)
+botao_inserir_categoria.place(x=110, y=190)
 
 
 
