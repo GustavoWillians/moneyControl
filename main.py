@@ -329,7 +329,7 @@ e_categoria.place(x=110, y=160)
 img_add_receitas = Image.open('adicionar.png')
 img_add_receitas = img_add_receitas.resize((17,17))
 img_add_receitas = ImageTk.PhotoImage(img_add_receitas)
-botao_inserir_despesas = Button(frame_configuracao, image=img_add_receitas, text=" Adicionar".upper(), width=80, compound=LEFT, anchor=NW, font=('Ivy 7 bold'), bg=co1, fg=co0, overrelief=RIDGE)
+botao_inserir_despesas = Button(frame_configuracao, command=inserir_categoria_b, image=img_add_receitas, text=" Adicionar".upper(), width=80, compound=LEFT, anchor=NW, font=('Ivy 7 bold'), bg=co1, fg=co0, overrelief=RIDGE)
 botao_inserir_despesas.place(x=110, y=111)
 
 

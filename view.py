@@ -21,7 +21,7 @@ def inserir_receita(i):
         cur.execute(query, i)
 
 #inserir Gastos
-def inserir_receita(i):
+def inserir_gastos(i):
     with con:
         cur = con.cursor()
         query = "INSERT INTO Gastos (categoria, retirado_em,valor) VALUES (?,?,?)"
