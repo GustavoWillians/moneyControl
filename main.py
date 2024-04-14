@@ -19,7 +19,7 @@ from tkcalendar import Calendar, DateEntry
 from datetime import date
 
 #importando funções da view
-from view import bar_valores, inserir_categoria, ver_categoria, inserir_receita, inserir_gastos 
+from view import bar_valores, inserir_categoria, ver_categoria, inserir_receita, inserir_gastos, tabela, deletar_gastos, deletar_receitas, pie_valores, percentagem_valor
 
 ################# cores ###############
 co0 = "#2e2d2b"  # Preta
@@ -111,6 +111,7 @@ def inserir_receitas_b():
         if i =='':
             messagebox.showerror('Erro', 'Preencha todos os campos')
             return
+        
     # Chamando a função de inserir receitas presente na view
     inserir_receita(lista_inserir)
 
@@ -128,10 +129,76 @@ def inserir_receitas_b():
     grafico_pie()
 
 
+#função inserir despesas
+def inserir_despesas_b():
+    nome = combo_categoria_despesas.get()
+    data = e_cal_despesas.get()
+    quantia = e_valor_despesas.get()
+
+    lista_inserir = [nome, data, quantia]
+
+    for i in lista_inserir:
+        if i =='':
+            messagebox.showerror('Erro', 'Preencha todos os campos')
+            return
+    # Chamando a função de inserir despesas presente na view
+    inserir_gastos(lista_inserir)
+
+    messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso')
+
+    #Deleta o valor que esta na view após ser inserido 
+    combo_categoria_despesas.delete(0, 'end')
+    e_cal_despesas.delete(0,'end')
+    e_valor_despesas.delete(0,'end')
+
+    # atualizando dados
+    mostrar_renda()
+    percentagem()
+    grafico_bar()
+    resumo()
+    grafico_pie()
+
+
+# função deletar
+def deletar_dados():
+    try:
+        tree_dados = tree.focus()
+        treev_dicionario = tree.item(tree_dados)
+        tree_lista = treev_dicionario['values']
+        valor = tree_lista[0]
+        nome = tree_lista[1]
+
+        if nome =='Receita':
+            deletar_receitas([valor])
+            messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso')
+
+          # atualizando dados
+            mostrar_renda()
+            percentagem()
+            grafico_bar()
+            resumo()
+            grafico_pie()
+           
+        else:
+            deletar_gastos([valor])
+            messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso')
+
+            # atualizando dados
+            mostrar_renda()
+            percentagem()
+            grafico_bar()
+            resumo()
+            grafico_pie()
+
+    except IndexError:
+        messagebox.showerror('Erro', 'Selecioe um dos dados na tabela')
+
+
+
 #percentagem ---------------------
 
 def percentagem():
-    l_nome=Label(frameMeio, text="Porcentagem da Receita Gasta", height=1, anchor=NW, font=('Verdana 12'), bg=co1, fg=co4)
+    l_nome=Label(frameMeio, text="Porcentagem da Receita restante", height=1, anchor=NW, font=('Verdana 12'), bg=co1, fg=co4)
     l_nome.place(x=7, y=5)
 
     style = ttk.Style()
@@ -141,9 +208,9 @@ def percentagem():
     bar = Progressbar(frameMeio, length=180, style='black.Horizontal.TProgressbar')
 
     bar.place(x=10, y=35)
-    bar['value'] = 50
+    bar['value'] = percentagem_valor()[0]
 
-    valor = 50
+    valor = percentagem_valor()[0]
 
     l_percentagem=Label(frameMeio, text="{:,.2f}%".format(valor), anchor=NW, font=('Verdana 12'), bg=co1, fg=co4)
     l_percentagem.place(x=200, y=35)
@@ -153,7 +220,7 @@ def percentagem():
 
 def grafico_bar():
     lista_categorias = ['Renda', 'Despesas', 'Saldo']
-    lista_valores = [3000, 2000, 6236]
+    lista_valores = bar_valores()
 
     # faça figura e atribua objetos de eixo
     figura = plt.Figure(figsize=(4, 3.45), dpi=60)
@@ -194,7 +261,7 @@ def grafico_bar():
 
 # função de resumo geral
 def resumo():
-    valor = [500,600,420]
+    valor = bar_valores()
 
     l_linha = Label(frameMeio, text="", width=215, height=1, anchor=NW, font='arial 1', bg='#545454')
     l_linha.place(x=309, y=52)
@@ -226,8 +293,8 @@ def grafico_pie():
     figura = plt.Figure(figsize=(5, 3), dpi=90)
     ax = figura.add_subplot(111)
 
-    lista_valores = [345,225,534]
-    lista_categorias = ['Renda', 'Despesa', 'Saldo']
+    lista_valores = pie_valores()[1]
+    lista_categorias = pie_valores()[0]
 
     #apenas "explodir" a segunda fatia (ou seja, 'Porcos')
 
@@ -268,7 +335,7 @@ def mostrar_renda():
     #criando uma visualização em árvore com barras de rolagem duplas
     tabela_head = ['#Id','Categoria','Data','Quantia']
 
-    lista_itens = [[0,2,3,4],[0,2,3,4],[0,2,3,4],[0,2,3,4]]
+    lista_itens = tabela()
     
     global tree
 
@@ -303,6 +370,7 @@ mostrar_renda()
 
 
 # Configurações de despesas-----------------------------
+
 l_info = Label(frame_operacoes, text='Insira novas despesas', height=1, anchor=NW, font=("Verdana 10 bold"), bg=co1, fg=co4)
 l_info.place(x=10 ,y=10)
 
@@ -339,17 +407,17 @@ e_valor_despesas.place(x=110,y=100)
 img_add_despesas = Image.open('adicionar.png')
 img_add_despesas = img_add_despesas.resize((17,17))
 img_add_despesas = ImageTk.PhotoImage(img_add_despesas)
-botao_inserir_despesas = Button(frame_operacoes, image=img_add_despesas, text=" Adicionar".upper(), width=80, compound=LEFT, anchor=NW, font=('Ivy 7 bold'), bg=co1, fg=co0, overrelief=RIDGE)
+botao_inserir_despesas = Button(frame_operacoes,command=inserir_despesas_b, image=img_add_despesas, text=" Adicionar".upper(), width=80, compound=LEFT, anchor=NW, font=('Ivy 7 bold'), bg=co1, fg=co0, overrelief=RIDGE)
 botao_inserir_despesas.place(x=110, y=130)
 
 # Botão de excluir
 l_excluir = Label(frame_operacoes, text='Excluir ação', height=1, anchor=NW, font=("Ivy 10 bold"), bg=co1, fg=co4)
-l_excluir.place(x=10 ,y=100)
+l_excluir.place(x=10 ,y=190)
 
 img_delete= Image.open('delete.png')
 img_delete = img_delete.resize((17,17))
 img_delete = ImageTk.PhotoImage(img_delete)
-botao_deletar = Button(frame_operacoes, image=img_delete, text=" Deletar".upper(), width=80, compound=LEFT, anchor=NW, font=('Ivy 7 bold'), bg=co1, fg=co0, overrelief=RIDGE)
+botao_deletar = Button(frame_operacoes, command=deletar_dados, image=img_delete, text=" Deletar".upper(), width=80, compound=LEFT, anchor=NW, font=('Ivy 7 bold'), bg=co1, fg=co0, overrelief=RIDGE)
 botao_deletar.place(x=110, y=190)
 
 
