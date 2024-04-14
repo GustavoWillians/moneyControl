@@ -302,7 +302,7 @@ mostrar_renda()
 
 
 
-# Configurações de despesas
+# Configurações de despesas-----------------------------
 l_info = Label(frame_operacoes, text='Insira novas despesas', height=1, anchor=NW, font=("Verdana 10 bold"), bg=co1, fg=co4)
 l_info.place(x=10 ,y=10)
 
@@ -311,7 +311,7 @@ l_categoria = Label(frame_operacoes, text='Categoria', height=1, anchor=NW, font
 l_categoria.place(x=10 ,y=40)
 
 # pegando categorias
-categoria_funcao = ['Viagens','Alimentação']
+categoria_funcao = ver_categoria()
 categoria = []
 
 for i in categoria_funcao:
@@ -340,7 +340,7 @@ img_add_despesas = Image.open('adicionar.png')
 img_add_despesas = img_add_despesas.resize((17,17))
 img_add_despesas = ImageTk.PhotoImage(img_add_despesas)
 botao_inserir_despesas = Button(frame_operacoes, image=img_add_despesas, text=" Adicionar".upper(), width=80, compound=LEFT, anchor=NW, font=('Ivy 7 bold'), bg=co1, fg=co0, overrelief=RIDGE)
-botao_inserir_despesas.place(x=110, y=111)
+botao_inserir_despesas.place(x=110, y=130)
 
 # Botão de excluir
 l_excluir = Label(frame_operacoes, text='Excluir ação', height=1, anchor=NW, font=("Ivy 10 bold"), bg=co1, fg=co4)
