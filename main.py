@@ -285,5 +285,3 @@ botao_inserir_despesas.place(x=110, y=131)
 
 
 janela.mainloop()
-
-f
