@@ -159,7 +159,7 @@ def pie_valores():
     return(lista_categorias, lista_quantias)
 
 
-#FUunção porcentagem
+#Função porcentagem
 def percentagem_valor():
     #Receita Total---------
     receitas = ver_receitas()
@@ -182,9 +182,8 @@ def percentagem_valor():
 
     #porcentagem Total
     if receita_total != 0:
-        total = (receita_total - gastos_total / receita_total) * 100
+        total = (receita_total - gastos_total)  / receita_total * 100
     else:
         total = 0  # Ou outra ação apropriada para lidar com a divisão por zero
-
 
     return[total]

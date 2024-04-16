@@ -181,7 +181,7 @@ def deletar_dados():
            
         else:
             deletar_gastos([valor])
-            messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso')
+            messagebox.showinfo('Sucesso', 'Os dados foram deletados com sucesso')
 
             # atualizando dados
             mostrar_renda()
